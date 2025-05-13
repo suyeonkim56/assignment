@@ -24,10 +24,36 @@ repositories {
 }
 
 dependencies {
+    // Thymeleaf 템플릿 엔진
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // 웹 애플리케이션 개발 (Spring MVC, 내장 Tomcat 포함)
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // JPA & Hibernate (ORM)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Bean Validation (e.g., @Valid, @NotNull 등)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Bcrypt 암호화 (비밀번호 해시용)
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+
+    // JWT 관련 라이브러리
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
+    // Lombok (컴파일 시 코드 생성)
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // MySQL JDBC 드라이버
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // 테스트 관련 (JUnit, Mockito 등)
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

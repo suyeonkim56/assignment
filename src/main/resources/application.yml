@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: assignment
+
+jwt:
+  secret:
+    key: bmFmZGhyaGZkYnZjbmZnZWhqZXJ0eXJxZWdmYnZtbmdmc3RnaHRyaGZ2Y3h6dmRmZ3Fhc2VyZmVyd2dmZGhzaG5naG5nZmhldHI=

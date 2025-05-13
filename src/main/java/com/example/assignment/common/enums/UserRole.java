@@ -3,13 +3,13 @@ package com.example.assignment.common.enums;
 import com.example.assignment.common.exception.constant.ErrorCode;
 import com.example.assignment.common.exception.object.ClientException;
 
-public enum Role {
+public enum UserRole {
     ADMIN,
     USER;
 
-    public static Role of(String userRole)
+    public static UserRole of(String userRole)
     {
-        for (Role role : values()) {
+        for (UserRole role : values()) {
             if (role.name().equals(userRole)) {
                 return role;
             }
