@@ -6,13 +6,11 @@ import com.example.assignment.auth.dto.response.GiveAdminResponseDto;
 import com.example.assignment.auth.dto.response.SignInResponseDto;
 import com.example.assignment.auth.dto.response.SignUpResponseDto;
 import com.example.assignment.auth.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,13 +20,13 @@ public class AuthController {
 
     //회원가입
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponseDto> signup(SignUpRequestDto dto) {
+    public ResponseEntity<SignUpResponseDto> signup(@RequestBody @Valid SignUpRequestDto dto) {
         return new ResponseEntity<>(authService.signUp(dto), HttpStatus.CREATED);
     }
 
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<SignInResponseDto> signin(SignInRequestDto dto) {
+    public ResponseEntity<SignInResponseDto> signin(@RequestBody @Valid SignInRequestDto dto) {
         return new ResponseEntity<>(authService.signIn(dto), HttpStatus.OK);
     }
 

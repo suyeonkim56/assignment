@@ -1,15 +1,15 @@
 package com.example.assignment.auth.repository;
 
 import com.example.assignment.auth.entity.User;
-import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface AuthRepository {
+public interface AuthRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
-    boolean existsByUsername(String username);
-    User save(User user);
-    Optional<User> findById(Long id);
 
+    boolean existsByUsername(String username);
+
+    Optional<User> findById(Long id);
 }
 

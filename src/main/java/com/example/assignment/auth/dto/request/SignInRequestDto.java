@@ -10,4 +10,9 @@ public class SignInRequestDto {
 
     @NotBlank(message = "비밀번호는 필수 입력값입니다.")
     private String password;
+
+    public SignInRequestDto(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
