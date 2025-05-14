@@ -10,3 +10,7 @@
 
 ## 프로젝트 구조
 ![화면 캡처 2025-05-14 141152](https://github.com/user-attachments/assets/90ac812e-cf57-4372-a1c4-0caf973f779f)
+
+
+## swagger-ui
+http://13.124.222.6:8080/swagger-ui/index.html
