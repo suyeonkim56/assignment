@@ -15,9 +15,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean; // ✅ 교체됨
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -35,21 +35,21 @@ class AuthControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
+    @MockBean
     private AuthService authService;
 
     private final String SIGNUP_JSON = """
             {
-                "username": "testuser",
-                "password": "1234",
-                "nickname": "tester"
+              "username": "testuser",
+              "password": "1234",
+              "nickname": "tester"
             }
             """;
 
     private final String LOGIN_JSON = """
             {
-                "username": "testuser",
-                "password": "1234"
+              "username": "testuser",
+              "password": "1234"
             }
             """;
 
@@ -108,7 +108,7 @@ class AuthControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(LOGIN_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.token", is("access-token"))); // 실제 반환 구조 확인 필요
+                    .andExpect(jsonPath("$.token", is("access-token")));
         }
 
         @Test

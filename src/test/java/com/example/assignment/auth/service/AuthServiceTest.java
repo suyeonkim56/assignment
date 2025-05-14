@@ -1,6 +1,5 @@
 package com.example.assignment.auth.service;
 
-
 import com.example.assignment.auth.dto.request.SignInRequestDto;
 import com.example.assignment.auth.dto.request.SignUpRequestDto;
 import com.example.assignment.auth.dto.response.GiveAdminResponseDto;
@@ -22,6 +21,8 @@ import org.mockito.ArgumentCaptor;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class AuthServiceTest {
@@ -29,7 +30,6 @@ class AuthServiceTest {
     private AuthRepository authRepository;
     private PasswordEncoder passwordEncoder;
     private JwtUtil jwtUtil;
-
     private AuthService authService;
 
     @BeforeEach
@@ -48,13 +48,15 @@ class AuthServiceTest {
         @Test
         @DisplayName("정상 회원가입")
         void signUpSuccess() {
+            // given
             SignUpRequestDto dto = new SignUpRequestDto("testuser", "1234", "tester");
-
             when(authRepository.existsByUsername("testuser")).thenReturn(false);
             when(passwordEncoder.encode("1234")).thenReturn("encoded1234");
 
+            // when
             SignUpResponseDto response = authService.signUp(dto);
 
+            // then
             ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
             verify(authRepository).save(captor.capture());
             User saved = captor.getValue();
@@ -62,13 +64,13 @@ class AuthServiceTest {
             assertThat(response.getUsername()).isEqualTo("testuser");
             assertThat(saved.getPassword()).isEqualTo("encoded1234");
             assertThat(saved.getNickname()).isEqualTo("tester");
+            assertThat(saved.getUserRole()).isEqualTo(UserRole.USER);
         }
 
         @Test
         @DisplayName("중복 사용자 회원가입 예외")
         void signUpDuplicateUser() {
             when(authRepository.existsByUsername("testuser")).thenReturn(true);
-
             SignUpRequestDto dto = new SignUpRequestDto("testuser", "1234", "tester");
 
             assertThatThrownBy(() -> authService.signUp(dto))
@@ -112,6 +114,7 @@ class AuthServiceTest {
         @DisplayName("비밀번호 불일치 로그인 실패")
         void signInWrongPassword() {
             User user = User.of("testuser", "encoded1234", "tester");
+
             when(authRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
             when(passwordEncoder.matches("wrong", "encoded1234")).thenReturn(false);
 

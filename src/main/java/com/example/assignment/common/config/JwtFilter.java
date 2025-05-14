@@ -25,6 +25,20 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+
+        // Swagger 관련 요청은 필터 제외
+        if (path.startsWith("/swagger-ui")
+                || path.equals("/swagger-ui.html")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-resources")
+                || path.startsWith("/webjars/")
+                || path.startsWith("/configuration/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -33,15 +47,13 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 var claims = jwtUtil.extractClaims(token);
                 Long userId = Long.valueOf(claims.getSubject());
-                String username = claims.get("username", String.class); // username claim이 있을 경우
+                String username = claims.get("username", String.class);
 
-                // 요청에 사용자 정보 설정 (resolver 사용 시 참고용)
                 request.setAttribute("userId", userId);
                 request.setAttribute("username", username);
 
-                // SecurityContextHolder에 인증 정보 저장 (선택 사항)
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userId, null, null); // 권한 설정 가능
+                        new UsernamePasswordAuthenticationToken(userId, null, null);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (ExpiredJwtException | MalformedJwtException e) {
@@ -51,4 +63,5 @@ public class JwtFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }

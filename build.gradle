@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.5'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.1.8'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.example'
@@ -24,38 +24,43 @@ repositories {
 }
 
 dependencies {
-    // Thymeleaf 템플릿 엔진
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-
-    // 웹 애플리케이션 개발 (Spring MVC, 내장 Tomcat 포함)
+    // 기본 웹 설정
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // JPA & Hibernate (ORM)
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    // Bean Validation (e.g., @Valid, @NotNull 등)
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    // Bcrypt 암호화 (비밀번호 해시용)
-    implementation 'at.favre.lib:bcrypt:0.10.2'
-
-    // JWT 관련 라이브러리
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+    // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    // Lombok (컴파일 시 코드 생성)
+    // Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // MySQL h2 드라이버
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // H2 DB
     runtimeOnly 'com.h2database:h2'
 
-    // 테스트 관련 (JUnit, Mockito 등)
+    // Swagger (OpenAPI)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+    //Bcrypt
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+
+    // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
